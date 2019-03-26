@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--<selector xmlns:android="http://schemas.android.com/apk/res/android">-->
+
+<!--</selector>-->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" android:opacity="opaque">
+    <item android:drawable="@color/colorLaunchScreen"/>
+    <item>
+        <bitmap android:src="@drawable/etazhi_logo"
+                android:gravity="center"/>
+    </item>
+</layer-list>
