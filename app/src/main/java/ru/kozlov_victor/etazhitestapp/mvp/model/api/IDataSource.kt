@@ -8,8 +8,8 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
-import ru.kozlov_victor.etazhitestapp.mvp.model.entity.Property
-import ru.kozlov_victor.etazhitestapp.mvp.model.entity.SearchCount
+import ru.kozlov_victor.etazhitestapp.mvp.model.entity.CountResponse
+import ru.kozlov_victor.etazhitestapp.mvp.model.entity.PropertyResponse
 
 interface IDataSource {
 
@@ -19,13 +19,14 @@ interface IDataSource {
         @Query("filter") filter: String,
         @Query("limit") limit: String,
         @Query("offset") offset: String
-    ): Single<List<Property>>
+    ): Single<PropertyResponse>
 
+    @GET
     fun getCount(
         @Query("api_key") apiKey: String,
         @Query("filter") filter: String,
-        @Query("count") count: Int
-    ): Single<SearchCount>
+        @Query("count") count: String
+    ): Single<CountResponse>
 
     companion object {
         fun create(): IDataSource {
