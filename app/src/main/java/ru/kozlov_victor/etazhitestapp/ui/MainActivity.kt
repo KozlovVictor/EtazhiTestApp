@@ -25,10 +25,10 @@ class MainActivity : AppCompatActivity() {
                 Log.d("TEST", "City: ${response.data?.get(0)?.city}, size: ${response.data?.size} !")
             }, { error -> error.printStackTrace() })
 
-//        val propertyCount = PropertyRepository().getCount(apiKey, filter, "1")
-//        propertyCount.subscribeOn(Schedulers.io())
-//            .subscribe({ response ->
-//                Log.d("TEST", "Count: ${response.count?.count}!")
-//            })
+        val propertyCount = PropertyRepository().getCount(apiKey, filter, 1)
+        propertyCount.subscribeOn(Schedulers.io())
+            .subscribe({ response ->
+                Log.d("TEST", "Count: ${response.data?.count}!")
+            }, { error -> error.printStackTrace() })
     }
 }

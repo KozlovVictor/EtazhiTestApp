@@ -10,7 +10,7 @@ class PropertyRepository() {
         return ApiHolder.api.getData(apiKey, filter, limit, offset)
     }
 
-    fun getCount(apiKey: String, filter: String, count: String): Single<CountResponse> {
+    fun getCount(apiKey: String, filter: String, count: Int): Single<CountResponse> {
         return ApiHolder.api.getCount(apiKey, filter, count)
     }
 }

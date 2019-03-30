@@ -21,11 +21,11 @@ interface IDataSource {
         @Query("offset") offset: String
     ): Single<PropertyResponse>
 
-    @GET
+    @GET ("api/v2/objects")
     fun getCount(
         @Query("api_key") apiKey: String,
         @Query("filter") filter: String,
-        @Query("count") count: String
+        @Query("count") count: Int
     ): Single<CountResponse>
 
     companion object {
