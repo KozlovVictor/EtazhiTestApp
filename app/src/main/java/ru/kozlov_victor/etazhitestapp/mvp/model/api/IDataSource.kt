@@ -17,8 +17,8 @@ interface IDataSource {
     fun getData(
         @Query("api_key") apiKey: String,
         @Query("filter") filter: String,
-        @Query("limit") limit: String,
-        @Query("offset") offset: String
+        @Query("limit") limit: Int,
+        @Query("offset") offset: Int
     ): Single<PropertyResponse>
 
     @GET ("api/v2/objects")
