@@ -7,8 +7,8 @@ import ru.kozlov_victor.etazhitestapp.mvp.model.entity.Property
 
 @StateStrategyType(value = AddToEndSingleStrategy::class)
 interface IMainView : MvpView {
+    fun init()
+    fun updateRepositoryList()
     fun showSearchResult(repositorySearchCount: Int?)
-    fun showDetailedView(property : Property?)
-    fun showLoading()
-    fun hideLoading()
+    fun startDetailedView(property: Property?)
 }

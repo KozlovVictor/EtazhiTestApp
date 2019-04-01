@@ -9,8 +9,9 @@ import ru.kozlov_victor.etazhitestapp.R
 import ru.kozlov_victor.etazhitestapp.mvp.presenter.list.IPropertyListPresenter
 import ru.kozlov_victor.etazhitestapp.mvp.view.item.IItemPropertyView
 
-class PropertyRVAdapter(val propertylistPresenter: IPropertyListPresenter) :
+class PropertyRVAdapter(val propertyListPresenter: IPropertyListPresenter) :
     RecyclerView.Adapter<PropertyRVAdapter.ViewHolder>() {
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         ViewHolder(
@@ -21,14 +22,18 @@ class PropertyRVAdapter(val propertylistPresenter: IPropertyListPresenter) :
             )
         )
 
-    override fun getItemCount(): Int = propertylistPresenter.getPropertyCount()!!
+    override fun getItemCount(): Int = propertyListPresenter.getPropertyCount()!!
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) = holder.bind(position)
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), IItemPropertyView {
+
         private val propertyPrice = itemView.findViewById<TextView>(R.id.tv_property_price)
         private val propertyAddress = itemView.findViewById<TextView>(R.id.tv_property_address)
         private val propertyShortDesc = itemView.findViewById<TextView>(R.id.tv_property_short_desc)
+        private val pos = 0
+
+        override fun getPos(): Int = pos
 
         override fun setPrice(price: String?) {
             propertyPrice.text = price
@@ -43,7 +48,7 @@ class PropertyRVAdapter(val propertylistPresenter: IPropertyListPresenter) :
         }
 
         fun bind(position: Int) = itemView.setOnClickListener{
-            propertylistPresenter.onItemClick(position)
+            propertyListPresenter.onItemClick(position)
         }
     }
 }

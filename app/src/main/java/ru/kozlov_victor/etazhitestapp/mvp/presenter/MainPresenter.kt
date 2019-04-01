@@ -1,5 +1,6 @@
 package ru.kozlov_victor.etazhitestapp.mvp.presenter
 
+import android.util.Log
 import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
 import ru.kozlov_victor.etazhitestapp.mvp.model.PropertyRepository
@@ -11,6 +12,8 @@ import ru.kozlov_victor.etazhitestapp.mvp.view.item.IItemPropertyView
 @InjectViewState
 class MainPresenter : MvpPresenter<IMainView>() {
 
+    val propertyListPresenter = PropertyListPresenter()
+
     companion object {
         private const val filter =
             "['AND', ['=', ''city_id, '23' ], [\"=\", \"action\", \"sale\"], [\"=\", \"class\", \"flats\"], [\"=\", \"status\", \"active\"]]"
@@ -20,13 +23,15 @@ class MainPresenter : MvpPresenter<IMainView>() {
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
+        viewState.init()
+        loadData()
     }
-//TODO refactor mainPresenter
-    init {
+
+    private fun loadData() {
         PropertyRepository().getData(apiKey, filter, 3, 0)
             .subscribe({ response ->
                 propertyList = response.data
-//                Log.d("TEST", "City: ${response.data?.get(0)?.city}, size: ${response.data?.size} !")
+                Log.d("TEST", "City: ${response.data?.get(0)?.city}, size: ${response.data?.size} !")
             }, { error -> error.printStackTrace() })
         PropertyRepository().getCount(apiKey, filter, 1)
             .subscribe({ response ->
@@ -35,24 +40,25 @@ class MainPresenter : MvpPresenter<IMainView>() {
             }, { error -> error.printStackTrace() })
     }
 
-    fun selectItem(position: Int) {
-        viewState.showDetailedView(propertyList?.get(position))
-    }
+
+    fun selectItem(position: Int) = viewState.startDetailedView(propertyList?.get(position))
 
     inner class PropertyListPresenter : IPropertyListPresenter {
 
         override fun bindView(view: IItemPropertyView) {
-            val listItem = propertyList?.get(view.getPosition())
+            val listItem = propertyList?.get(view.getPos())
+            val costPerMeter = listItem?.price?.toInt()!! / listItem?.areaFlat!!.toInt()
             view.setPrice("${listItem?.price} ${listItem?.currencySymbol}")
-            //TODO view.setAddress("${listItem?.city}, ${listItem?.city}")
+            view.setAddress("${listItem?.city}, ${listItem?.street}, ${listItem?.houseNum}")
+            view.setShortDesc(
+                "${listItem?.type}, ${listItem?.areaFlat} м," +
+                        " этаж ${listItem?.floorsNum}/${listItem?.floorsCnt}, " +
+                        "$costPerMeter ${listItem?.currencySymbol}/м"
+            )
         }
 
-        override fun getPropertyCount(): Int? {
-            return propertyList?.size
-        }
+        override fun getPropertyCount(): Int? = propertyList?.size
 
-        override fun onItemClick(position: Int) {
-            this@MainPresenter.selectItem(position)
-        }
+        override fun onItemClick(position: Int) = this@MainPresenter.selectItem(position)
     }
 }
