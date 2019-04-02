@@ -51,9 +51,9 @@ class MainPresenter : MvpPresenter<IMainView>() {
             view.setPrice("${listItem?.price} ${listItem?.currencySymbol}")
             view.setAddress("${listItem?.city}, ${listItem?.street}, ${listItem?.houseNum}")
             view.setShortDesc(
-                "${listItem?.type}, ${listItem?.areaFlat} м," +
+                "${listItem?.type}, ${listItem?.areaFlat} м²," +
                         " этаж ${listItem?.floorsNum}/${listItem?.floorsCnt}, " +
-                        "$costPerMeter ${listItem?.currencySymbol}/м"
+                        "$costPerMeter ${listItem?.currencySymbol}/м²"
             )
         }
 
